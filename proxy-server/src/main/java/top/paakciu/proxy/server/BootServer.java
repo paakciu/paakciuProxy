@@ -55,7 +55,7 @@ public class BootServer {
                 ch.pipeline().addLast(new ServerChannelHandler());
             }
         });
-        bootstrapToClient.bind(4396).get();
+        bootstrapToClient.bind(88).get();
 
         ServerBootstrap welcomeBootstrap = new ServerBootstrap();
         welcomeBootstrap.group(serverBossGroup, serverWorkerGroup).channel(NioServerSocketChannel.class).childHandler(new ChannelInitializer<SocketChannel>() {
@@ -65,6 +65,6 @@ public class BootServer {
                 ch.pipeline().addLast(new WelcomeChannelHandler());
             }
         });
-        welcomeBootstrap.bind(8090).get();
+        welcomeBootstrap.bind(89).get();
     }
 }

@@ -1,4 +1,4 @@
-package top.paakciu.proxy.core.protocal.packet;
+package top.paakciu.proxy.core.protocal.packet.base;
 
 import lombok.Data;
 import top.paakciu.proxy.core.protocal.enums.SerializerAlgorithm;

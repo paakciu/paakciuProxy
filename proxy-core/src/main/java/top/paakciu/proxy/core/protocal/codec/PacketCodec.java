@@ -1,10 +1,9 @@
 package top.paakciu.proxy.core.protocal.codec;
 
 import io.netty.buffer.ByteBuf;
-import top.paakciu.proxy.common.IMConfig;
 import top.paakciu.proxy.core.protocal.enums.PacketsCommandEnum;
 import top.paakciu.proxy.core.protocal.enums.SerializerAlgorithm;
-import top.paakciu.proxy.core.protocal.packet.BasePacket;
+import top.paakciu.proxy.core.protocal.packet.base.BasePacket;
 import top.paakciu.proxy.core.protocal.serializer.Serializer;
 
 /**
@@ -18,15 +17,25 @@ public class PacketCodec {
     /**
      * 魔数
      */
-    public static final byte[] MAGIC_NUMBER= IMConfig.MAGIC;
-    public static final int MAGIC_INT=IMConfig.MAGICINT;
+    public static final byte[] MAGIC_NUMBER= new byte[]{'P','a','a','k'};
+    public static final int MAGIC_INT=1348559211;
     /**
      * 这些是跟包编码/解码相关的参数，一定是绑定这个 类的
      * {@link PacketCodec}
      */
-    public static final int LENGTH_FIELD_OFFSET=7;
-    public static final int LENGTH_FIELD_LENGTH=4;
-    public static final int MAX_FRAME_LENGTH=Integer.MAX_VALUE;
+
+    /**
+     * 帧偏移
+     */
+    public static final int LENGTHFIELDOFFSET=7;
+    /**
+     * 帧长标识占多少位  结合上面的帧偏移 则表示 bytes=xxxxxxx[yyyy]其中yyyy的帧长值
+     */
+    public static final int LENGTHFIELDLENGTH=4;
+    /**
+     * 最大帧长
+     */
+    public static final int MAXFRAMELENGTH=Integer.MAX_VALUE;
 
     /**
      * 编码

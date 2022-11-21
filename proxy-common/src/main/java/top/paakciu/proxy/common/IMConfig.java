@@ -1,27 +1,27 @@
 package top.paakciu.proxy.common;
 
 
+import java.util.concurrent.TimeUnit;
+
 /**
  * @author paakciu
  * @ClassName: IMConfig
  * @date: 2021/7/17 15:31
  */
 public class IMConfig {
-    /**
-     * 客户端服务端通用的配置
-     */
-    //服务器的地址和端口
-    public static final String HOST="localhost";
-    public static final int PORT=4396;
-    //魔数的字节流
-    public static final byte[] MAGIC=new byte[]{'P','a','a','k'};
-    //如果是为了读4个字节方便，可以使用魔数对应的int来比较结果，但是跟上者一定是要一一对应的。
-    public static final int MAGICINT=1348559211;
 
     /**
-     * 客户端部分配置参数
+     * 服务端端连接空闲时间
      */
-    //客户端连接的重试次数
-    public static final int ClientConnectionRetry=5;
-
+    public static final int SERVER_IDLE_TIME=60;
+    /**
+    * 时间单位
+     */
+    public static final TimeUnit SERVER_TIME_UNIT=TimeUnit.SECONDS;
+    //客户端连接空闲时间,一般定为服务器的3分之一
+    public static final int CLIENT_IDLE_TIME=20;
+    //客户端心跳包的发送间隔
+    public static final int CLIENT_HEARTBEAT_INTERVAL=3;
+    //时间单位
+    public static final TimeUnit CLIENT_TIME_UNIT=TimeUnit.SECONDS;
 }

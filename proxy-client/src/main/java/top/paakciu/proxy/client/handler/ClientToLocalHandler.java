@@ -1,16 +1,12 @@
-package top.paakciu.proxy.client.test;
+package top.paakciu.proxy.client.handler;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
-import io.netty.channel.ChannelOption;
 import io.netty.channel.SimpleChannelInboundHandler;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import top.paakciu.proxy.client.ClientCache;
+import top.paakciu.proxy.client.ClientContext;
 import top.paakciu.proxy.core.test.ProxyMessage;
-
 import java.nio.charset.StandardCharsets;
 
 /**
@@ -25,7 +21,7 @@ public class ClientToLocalHandler extends SimpleChannelInboundHandler<ByteBuf> {
     protected void channelRead0(ChannelHandlerContext ctx, ByteBuf buf) throws Exception {
         log.info("ClientToLocalHandler.channelRead0 enter");
         Channel channelToLocal = ctx.channel();
-        Channel channelToServer = ClientCache.getChannelToServer();
+        Channel channelToServer = ClientContext.getChannelToServer();
         if (channelToServer == null) {
             log.info("ClientToLocalHandler.channelRead0 channelToServer is null");
             ctx.channel().close();
@@ -44,8 +40,8 @@ public class ClientToLocalHandler extends SimpleChannelInboundHandler<ByteBuf> {
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
         log.info("ClientToLocalHandler.channelActive");
-        Channel channelToLocal = ctx.channel();
-        ClientCache.setChannelToLocal(channelToLocal);
+//        Channel channelToLocal = ctx.channel();
+//        ClientCache.setChannelToLocal(channelToLocal);
         super.channelActive(ctx);
     }
 
