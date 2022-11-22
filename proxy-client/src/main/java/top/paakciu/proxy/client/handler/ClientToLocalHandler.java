@@ -4,9 +4,11 @@ import io.netty.buffer.ByteBuf;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
+import io.netty.util.AttributeKey;
 import lombok.extern.slf4j.Slf4j;
 import top.paakciu.proxy.client.ClientContext;
-import top.paakciu.proxy.core.test.ProxyMessage;
+import top.paakciu.proxy.common.enums.ProxyPacketType;
+import top.paakciu.proxy.core.protocal.packet.special.ProxyPacket;
 import java.nio.charset.StandardCharsets;
 
 /**
@@ -19,7 +21,7 @@ public class ClientToLocalHandler extends SimpleChannelInboundHandler<ByteBuf> {
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, ByteBuf buf) throws Exception {
-        log.info("ClientToLocalHandler.channelRead0 enter");
+//        log.info("ClientToLocalHandler.channelRead0 enter");
         Channel channelToLocal = ctx.channel();
         Channel channelToServer = ClientContext.getChannelToServer();
         if (channelToServer == null) {
@@ -30,10 +32,13 @@ public class ClientToLocalHandler extends SimpleChannelInboundHandler<ByteBuf> {
             buf.readBytes(bytes);
             String text = new String(bytes, StandardCharsets.UTF_8);
             log.info("ClientToLocalHandler.channelRead0 text={}",text);
-            ProxyMessage proxyMessage = new ProxyMessage();
-            proxyMessage.setType(ProxyMessage.P_TYPE_TRANSFER);
-            proxyMessage.setData(bytes);
-            channelToServer.writeAndFlush(proxyMessage);
+
+            String uuid = (String) channelToLocal.attr(AttributeKey.valueOf("uuid")).get();
+            ProxyPacket proxyPacket = new ProxyPacket();
+            proxyPacket.setType(ProxyPacketType.TRANSFER);
+            proxyPacket.setData(bytes);
+            proxyPacket.setUuid(uuid);
+            channelToServer.writeAndFlush(proxyPacket);
         }
     }
 

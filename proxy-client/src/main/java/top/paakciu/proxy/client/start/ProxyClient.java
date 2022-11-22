@@ -28,7 +28,10 @@ import top.paakciu.proxy.core.protocal.packet.special.ProxyPacket;
  */
 @Slf4j
 public class ProxyClient {
-    String ip="localhost";
+    /**
+     * 服务器连接
+     */
+    String ip="43.143.208.152";
     int port=88;
 
 
@@ -50,12 +53,13 @@ public class ProxyClient {
         serverBootstrap.channel(NioSocketChannel.class);
         serverBootstrap.handler(new ChannelInitializer<SocketChannel>() {
             @Override
-            public void initChannel(SocketChannel ch) throws Exception {
-                ch.pipeline().addLast(B2MPacketCodecHandler.INSTANCE);
-                ch.pipeline().addLast(new PreFrameDecoder());
+            public void initChannel(SocketChannel ch) {
                 ch.pipeline().addLast(new IdleDetectionHandler(IMConfig.CLIENT_IDLE_TIME,IMConfig.CLIENT_TIME_UNIT));
-                ch.pipeline().addLast(new ClientToServerHandler());
+                ch.pipeline().addLast(new PreFrameDecoder());
+                ch.pipeline().addLast(new B2MPacketCodecHandler());
                 ch.pipeline().addLast(new HeartBeatTimerHandler());
+                ch.pipeline().addLast(new ClientToServerHandler());
+
             }
         });
 
@@ -70,6 +74,14 @@ public class ProxyClient {
         });
     }
 
+
+
+    public static void main(String[] args) {
+        //todo wubaizhao1 需要输入 代理的端口 服务器ip+端口
+        ProxyClient client = new ProxyClient();
+        client.start();
+    }
+}
 //    /**
 //     * 开启发送线程
 //     * @param channelFuture
@@ -103,9 +115,3 @@ public class ProxyClient {
 //            }
 //        }
 //    }
-
-    public static void main(String[] args) {
-        ProxyClient client = new ProxyClient();
-        client.start();
-    }
-}

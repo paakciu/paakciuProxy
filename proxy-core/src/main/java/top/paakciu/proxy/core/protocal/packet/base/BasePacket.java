@@ -1,6 +1,7 @@
 package top.paakciu.proxy.core.protocal.packet.base;
 
 import lombok.Data;
+import top.paakciu.proxy.core.protocal.enums.PacketsCommandEnum;
 import top.paakciu.proxy.core.protocal.enums.SerializerAlgorithm;
 import top.paakciu.proxy.core.protocal.serializer.Serializer;
 
@@ -27,8 +28,7 @@ public class BasePacket {
      * @return
      */
     public Byte getCommand(){
-        return 1;
-//        return PacketsCommandMapping.getCommand(this.getClass());
+        return PacketsCommandEnum.getTypeByClass(this.getClass());
     }
 
     /**

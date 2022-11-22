@@ -1,10 +1,13 @@
 package top.paakciu.proxy.core.protocal.codec;
 
 import io.netty.buffer.ByteBuf;
+import lombok.extern.slf4j.Slf4j;
 import top.paakciu.proxy.core.protocal.enums.PacketsCommandEnum;
 import top.paakciu.proxy.core.protocal.enums.SerializerAlgorithm;
 import top.paakciu.proxy.core.protocal.packet.base.BasePacket;
 import top.paakciu.proxy.core.protocal.serializer.Serializer;
+
+import java.nio.charset.StandardCharsets;
 
 /**
  * PacketCodeC
@@ -12,6 +15,7 @@ import top.paakciu.proxy.core.protocal.serializer.Serializer;
  * @author paakciu
  * @date 2020/12/21 11:12
  */
+@Slf4j
 public class PacketCodec {
 
     /**
@@ -59,6 +63,8 @@ public class PacketCodec {
         byteBuf.writeInt(bytes.length);
         //  数据体
         byteBuf.writeBytes(bytes);
+
+        debugOutPut(byteBuf,"encode");
         return byteBuf;
     }
 
@@ -68,6 +74,8 @@ public class PacketCodec {
      * @return
      */
     public static BasePacket decode(ByteBuf byteBuf) {
+        debugOutPut(byteBuf,"decode");
+
         // 读取magic number
         int Magic=byteBuf.readInt();
         if(MAGIC_INT!=Magic){
@@ -86,6 +94,11 @@ public class PacketCodec {
         return toPacket(version,serializeAlgorithm,command, bytes);
     }
 
+    private static void debugOutPut(ByteBuf byteBuf,String method){
+        //todo debug 根据配置决定是否要执行这一段逻辑
+//        String str = byteBuf.toString(StandardCharsets.UTF_8);
+//        log.info("{} byteBuf str ={}",method,str);
+    }
     private static BasePacket toPacket(byte version, byte serializeAlgorithm, byte command, byte[] bytes){
         /**
          * 使用{@link PacketsCommandMapping}获取类型
@@ -99,6 +112,7 @@ public class PacketCodec {
         if (requestType != null && serializer != null) {
             return serializer.deserialize(requestType, bytes);
         }
+        log.error("PacketCodec toPacket error!");
         //如果出了问题
         return null;
     }

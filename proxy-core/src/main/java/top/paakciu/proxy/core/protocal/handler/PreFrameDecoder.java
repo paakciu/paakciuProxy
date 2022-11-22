@@ -47,16 +47,16 @@ public class PreFrameDecoder extends LengthFieldBasedFrameDecoder {
         super(PacketCodec.MAXFRAMELENGTH, PacketCodec.LENGTHFIELDOFFSET, PacketCodec.LENGTHFIELDLENGTH);
     }
 
-    @Override
-    protected Object decode(ChannelHandlerContext ctx, ByteBuf in) throws Exception {
-        // 屏蔽非本协议的客户端
-        if (in.getInt(in.readerIndex()) != PacketCodec.MAGIC_INT) {
-            //System.out.println("PreFrameDecoder识别魔数失败");
-            ctx.channel().close();
-            return null;
-        }
-        //解码成功
-        //System.out.println("经测试，PreFrameDecoder的解码器成功识别魔数");
-        return super.decode(ctx, in);
-    }
+//    @Override
+//    protected Object decode(ChannelHandlerContext ctx, ByteBuf in) throws Exception {
+//        // 屏蔽非本协议的客户端
+//        if (in.getInt(in.readerIndex()) != PacketCodec.MAGIC_INT) {
+//            //System.out.println("PreFrameDecoder识别魔数失败");
+//            ctx.channel().close();
+//            return null;
+//        }
+//        //解码成功
+//        //System.out.println("经测试，PreFrameDecoder的解码器成功识别魔数");
+//        return super.decode(ctx, in);
+//    }
 }

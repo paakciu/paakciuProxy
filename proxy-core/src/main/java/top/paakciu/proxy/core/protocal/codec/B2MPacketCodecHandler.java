@@ -13,12 +13,7 @@ import java.util.List;
  * @ClassName: B2MPacketCodecHandler
  * @date: 2021/3/3 17:50
  */
-//@Deprecated
-@ChannelHandler.Sharable
 public class B2MPacketCodecHandler extends ByteToMessageCodec<BasePacket> {
-    //单例
-    public static final B2MPacketCodecHandler INSTANCE = new B2MPacketCodecHandler();
-
     @Override
     protected void encode(ChannelHandlerContext ctx, BasePacket msg, ByteBuf out) throws Exception {
         PacketCodec.encode(out,msg);

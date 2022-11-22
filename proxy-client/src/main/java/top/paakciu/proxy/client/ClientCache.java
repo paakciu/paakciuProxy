@@ -6,9 +6,11 @@ import lombok.Data;
 import top.paakciu.proxy.core.protocal.packet.special.ProxyPacket;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @Classname ClientCache
@@ -16,34 +18,16 @@ import java.util.concurrent.BlockingQueue;
  * @Created by paakciu
  */
 public class ClientCache {
-//    private static volatile Channel channelToLocal;
-//
-//    private static volatile Channel channelToServer;
-//
-////    public static BlockingQueue<ProxyPacket> SEND_QUEUE = new ArrayBlockingQueue(100);
-//
-//    public static Map<String,Channel> channelToLocalMap = new HashMap<>(2);
-//    public static Channel getChannelToLocal() {
-//        return channelToLocal;
-//    }
-//
-//    public static void setChannelToLocal(Channel channelToLocal) {
-//        ClientCache.channelToLocal = channelToLocal;
-//    }
-//
-//    public static Channel getChannelToServer() {
-//        return channelToServer;
-//    }
-//
-//    public static void setChannelToServer(Channel channelToServer) {
-//        ClientCache.channelToServer = channelToServer;
-//    }
-//
-//    public static Map<String, Channel> getChannelToLocalMap() {
-//        return channelToLocalMap;
-//    }
-//
-//    public static void setChannelToLocalMap(Map<String, Channel> channelToLocalMap) {
-//        ClientCache.channelToLocalMap = channelToLocalMap;
-//    }
+
+    /**
+     * 求建立连接到成功建立直接到达的数据包，将缓存起来
+     * true-可以存入缓存
+     * false-不存入缓存
+     */
+    public static Map<String,Boolean> packetStateCache = new ConcurrentHashMap<>(2);
+    /**
+     * 请求建立连接到成功建立直接到达的数据包，将缓存起来
+     */
+    public static Map<String, List<byte[]>> packetCache = new ConcurrentHashMap<>(2);
+
 }
