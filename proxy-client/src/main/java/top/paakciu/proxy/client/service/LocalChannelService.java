@@ -35,7 +35,7 @@ public class LocalChannelService {
     public void connectToLocal(String uuid){
         //本地启动的时候需要选择代理的端口
         String ip = "localhost";
-        int port = 8080;
+        int port = ClientCache.LocalPort;
 
         log.info("LocalChannelService.connectToLocal!");
         ClientCache.packetStateCache.put(uuid,true);
@@ -68,7 +68,7 @@ public class LocalChannelService {
         if(state){
             List<byte[]> list = ClientCache.packetCache.get(uuid);
             list.add(data);
-            log.info("LocalChannelService sendMessageToLocal cache message uuid={}",uuid);
+//            log.info("LocalChannelService sendMessageToLocal cache message uuid={}",uuid);
             return;
         }
         Channel channelToLocal = ClientContext.getLocalChannel(uuid);
@@ -76,11 +76,11 @@ public class LocalChannelService {
             ByteBuf buf = ByteBufAllocator.DEFAULT.buffer(data.length);
             buf.writeBytes(data);
             //todo 可以删除
-            String text = new String(data, StandardCharsets.UTF_8);
-            log.info("LocalChannelService sendMessageToLocal data={},uuid={}",text,uuid);
+//            String text = new String(data, StandardCharsets.UTF_8);
+//            log.info("LocalChannelService sendMessageToLocal data={},uuid={}",text,uuid);
             channelToLocal.writeAndFlush(buf);
         }else{
-            log.info("LocalChannelService sendMessageToLocal channelToLocal is empty! uuid={}",uuid);
+//            log.info("LocalChannelService sendMessageToLocal channelToLocal is empty! uuid={}",uuid);
         }
     }
 
@@ -92,12 +92,12 @@ public class LocalChannelService {
                 ByteBuf buf = ByteBufAllocator.DEFAULT.buffer(data.length);
                 buf.writeBytes(data);
                 //todo 可以删除
-                String text = new String(data, StandardCharsets.UTF_8);
-                log.info("LocalChannelService CachePop data={},uuid={}",text,uuid);
+//                String text = new String(data, StandardCharsets.UTF_8);
+//                log.info("LocalChannelService CachePop data={},uuid={}",text,uuid);
                 channelToLocal.writeAndFlush(buf);
             }
         }else{
-            log.info("LocalChannelService CachePop channelToLocal is empty! uuid={}",uuid);
+//            log.info("LocalChannelService CachePop channelToLocal is empty! uuid={}",uuid);
         }
         ClientCache.packetCache.remove(uuid);
     }

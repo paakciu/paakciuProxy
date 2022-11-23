@@ -21,6 +21,8 @@ import top.paakciu.proxy.core.protocal.handler.IdleDetectionHandler;
 import top.paakciu.proxy.core.protocal.handler.PreFrameDecoder;
 import top.paakciu.proxy.core.protocal.packet.special.ProxyPacket;
 
+import java.util.Scanner;
+
 /**
  * @Classname proxyClient
  * @Date 2022/11/7 22:47
@@ -28,12 +30,6 @@ import top.paakciu.proxy.core.protocal.packet.special.ProxyPacket;
  */
 @Slf4j
 public class ProxyClient {
-    /**
-     * 服务器连接
-     */
-    String ip="43.143.208.152";
-    int port=88;
-
 
     public void start(){
         //本地连接
@@ -66,7 +62,7 @@ public class ProxyClient {
         ClientContext.setLocalBootstrap(localBootstrap);
         ClientContext.setServerBootstrap(serverBootstrap);
 
-        serverBootstrap.connect(ip,port).addListener(future -> {
+        serverBootstrap.connect(ClientCache.ServerIp,ClientCache.ServerPort).addListener(future -> {
             if(future.isSuccess()){
                 //经过测试 先会执行 handler的 channelActive 才会到这个成功，故断线重连的逻辑可以写进handler里，无需在这里体现
                 log.info("客户端主连接建立完成！");
@@ -78,6 +74,15 @@ public class ProxyClient {
 
     public static void main(String[] args) {
         //todo wubaizhao1 需要输入 代理的端口 服务器ip+端口
+
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("请输入代理服务器地址");
+        ClientCache.ServerIp = scanner.nextLine();
+        System.out.println("请输入代理服务器端口");
+        ClientCache.ServerPort = scanner.nextInt();
+        System.out.println("请输入本地端口");
+        ClientCache.LocalPort = scanner.nextInt();
+
         ProxyClient client = new ProxyClient();
         client.start();
     }

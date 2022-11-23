@@ -19,6 +19,9 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class ClientCache {
 
+    public static String ServerIp = "";
+    public static int ServerPort = 0;
+    public static int LocalPort = 0;
     /**
      * 求建立连接到成功建立直接到达的数据包，将缓存起来
      * true-可以存入缓存

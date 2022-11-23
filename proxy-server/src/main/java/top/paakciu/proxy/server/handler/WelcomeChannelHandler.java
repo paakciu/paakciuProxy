@@ -36,8 +36,8 @@ public class WelcomeChannelHandler extends SimpleChannelInboundHandler<ByteBuf> 
         } else {
             byte[] bytes = new byte[byteBuf.readableBytes()];
             byteBuf.readBytes(bytes);
-            String text = new String(bytes, StandardCharsets.UTF_8);
-            log.info("WelcomeChannelHandler.channelRead0 bytes={}",text);
+//            String text = new String(bytes, StandardCharsets.UTF_8);
+//            log.info("WelcomeChannelHandler.channelRead0 bytes={}",text);
 
             String uuid = (String) userChannel.attr(AttributeKey.valueOf("uuid")).get();
             sendToClientService.sendData(uuid,bytes);
