@@ -62,6 +62,7 @@ public class ProxyClient {
         ClientContext.setLocalBootstrap(localBootstrap);
         ClientContext.setServerBootstrap(serverBootstrap);
 
+        log.info("绑定地址端口{}:{}",ClientCache.ServerIp,ClientCache.ServerPort);
         serverBootstrap.connect(ClientCache.ServerIp,ClientCache.ServerPort).addListener(future -> {
             if(future.isSuccess()){
                 //经过测试 先会执行 handler的 channelActive 才会到这个成功，故断线重连的逻辑可以写进handler里，无需在这里体现

@@ -29,7 +29,7 @@ public class ServerChannelHandler extends SimpleChannelInboundHandler<ProxyPacke
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, ProxyPacket proxyPacket) throws Exception {
-        log.info("ServerChannelHandler.channelRead0 proxyPacket={}", JSON.toJSONString(proxyPacket));
+//        log.info("ServerChannelHandler.channelRead0 proxyPacket={}", JSON.toJSONString(proxyPacket));
         if(proxyPacket==null){
             return ;
         }

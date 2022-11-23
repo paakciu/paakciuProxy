@@ -27,7 +27,7 @@ public class ClientToServerHandler extends SimpleChannelInboundHandler<ProxyPack
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, ProxyPacket proxyPacket) throws Exception {
-        log.info("ClientToServerHandler.channelRead0 proxyPacket={}", JSON.toJSONString(proxyPacket));
+//        log.info("ClientToServerHandler.channelRead0 proxyPacket={}", JSON.toJSONString(proxyPacket));
         if(proxyPacket==null){
             return ;
         }

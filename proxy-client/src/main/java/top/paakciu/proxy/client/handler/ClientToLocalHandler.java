@@ -31,7 +31,7 @@ public class ClientToLocalHandler extends SimpleChannelInboundHandler<ByteBuf> {
             byte[] bytes = new byte[buf.readableBytes()];
             buf.readBytes(bytes);
             String text = new String(bytes, StandardCharsets.UTF_8);
-            log.info("ClientToLocalHandler.channelRead0 text={}",text);
+//            log.info("ClientToLocalHandler.channelRead0 text={}",text);
 
             String uuid = (String) channelToLocal.attr(AttributeKey.valueOf("uuid")).get();
             ProxyPacket proxyPacket = new ProxyPacket();
