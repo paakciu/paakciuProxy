@@ -2,12 +2,14 @@ package top.paakciu.proxy.server.start;
 
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelInitializer;
+import io.netty.channel.ChannelOption;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import lombok.extern.slf4j.Slf4j;
 import top.paakciu.proxy.common.IMConfig;
 import top.paakciu.proxy.core.protocal.codec.B2MPacketCodecHandler;
+import top.paakciu.proxy.core.protocal.handler.HeartBeatRequestHandler;
 import top.paakciu.proxy.core.protocal.handler.HeartBeatTimerHandler;
 import top.paakciu.proxy.core.protocal.handler.IdleDetectionHandler;
 import top.paakciu.proxy.core.protocal.handler.PreFrameDecoder;
@@ -24,7 +26,7 @@ public class ProxyServer {
 
     int clientPort = 88;
 
-    int welcomePort = 89;
+    int welcomePort = 25565;
 
     public void start(){
         NioEventLoopGroup serverBossGroup = new NioEventLoopGroup();
@@ -39,17 +41,24 @@ public class ProxyServer {
                 ch.pipeline().addLast(new PreFrameDecoder());
                 ch.pipeline().addLast(new B2MPacketCodecHandler());
 //                ch.pipeline().addLast(new HeartBeatTimerHandler());
+                //心跳包响应
+                ch.pipeline().addLast(new HeartBeatRequestHandler());
                 ch.pipeline().addLast(new ServerChannelHandler());
             }
         });
         bootstrapToClient.bind(clientPort).addListener(future -> {
             if(future.isSuccess()){
                 log.info("bootstrapToClient 绑定端口{}成功！",clientPort);
+            }else{
+                log.error("bootstrapToClient 绑定端口{}失败！",clientPort);
             }
         });
 
         //欢迎线程
         ServerBootstrap welcomeBootstrap = new ServerBootstrap();
+        welcomeBootstrap.option(ChannelOption.SO_KEEPALIVE,true);
+        //存放已经三次握手的请求的队列的最大长度
+        welcomeBootstrap.option(ChannelOption.SO_BACKLOG, 1024);
         welcomeBootstrap.group(serverBossGroup, serverWorkerGroup).channel(NioServerSocketChannel.class).childHandler(new ChannelInitializer<SocketChannel>() {
             @Override
             public void initChannel(SocketChannel ch) throws Exception {
@@ -59,6 +68,8 @@ public class ProxyServer {
         welcomeBootstrap.bind(welcomePort).addListener(future -> {
             if(future.isSuccess()){
                 log.info("welcomeBootstrap 绑定端口{}成功！",welcomePort);
+            }else{
+                log.error("welcomeBootstrap 绑定端口{}失败！",welcomePort);
             }
         });
     }

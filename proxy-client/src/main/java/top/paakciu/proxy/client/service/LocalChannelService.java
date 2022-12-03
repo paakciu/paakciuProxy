@@ -110,7 +110,8 @@ public class LocalChannelService {
         }
         Channel channelToLocal = ClientContext.getLocalChannel(uuid);
         if (channelToLocal != null) {
-            channelToLocal.disconnect();
+            channelToLocal.close();
+            ClientContext.removeLocalChannel(uuid);
         }
     }
 }

@@ -25,4 +25,8 @@ public class IMConfig {
     public static final int CLIENT_HEARTBEAT_INTERVAL=20;
     //时间单位
     public static final TimeUnit CLIENT_TIME_UNIT=TimeUnit.SECONDS;
+    /**
+     * 保护key
+     */
+    public static final String KEY="抄底！";
 }

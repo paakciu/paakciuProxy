@@ -52,4 +52,8 @@ public class ClientContext {
     public static Channel getLocalChannel(String uuid){
         return channelToLocalMap.get(uuid);
     }
+
+    public static void removeLocalChannel(String uuid){
+        channelToLocalMap.remove(uuid);
+    }
 }

@@ -17,7 +17,7 @@ public class IdleDetectionHandler  extends IdleStateHandler {
     long allIdleTime;
 
     public IdleDetectionHandler(long allIdleTime, TimeUnit unit) {
-        super(0, 0, allIdleTime, unit);
+        super(0, allIdleTime, 0, unit);
         this.allIdleTime=allIdleTime;
     }
 

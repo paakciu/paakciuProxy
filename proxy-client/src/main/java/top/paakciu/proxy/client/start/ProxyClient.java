@@ -1,14 +1,10 @@
 package top.paakciu.proxy.client.start;
 
-import com.alibaba.fastjson.JSON;
 import io.netty.bootstrap.Bootstrap;
-import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
-import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import top.paakciu.proxy.client.ClientCache;
 import top.paakciu.proxy.client.ClientContext;
@@ -19,7 +15,6 @@ import top.paakciu.proxy.core.protocal.codec.B2MPacketCodecHandler;
 import top.paakciu.proxy.core.protocal.handler.HeartBeatTimerHandler;
 import top.paakciu.proxy.core.protocal.handler.IdleDetectionHandler;
 import top.paakciu.proxy.core.protocal.handler.PreFrameDecoder;
-import top.paakciu.proxy.core.protocal.packet.special.ProxyPacket;
 
 import java.util.Scanner;
 
@@ -53,8 +48,8 @@ public class ProxyClient {
                 ch.pipeline().addLast(new IdleDetectionHandler(IMConfig.CLIENT_IDLE_TIME,IMConfig.CLIENT_TIME_UNIT));
                 ch.pipeline().addLast(new PreFrameDecoder());
                 ch.pipeline().addLast(new B2MPacketCodecHandler());
-                ch.pipeline().addLast(new HeartBeatTimerHandler());
                 ch.pipeline().addLast(new ClientToServerHandler());
+                ch.pipeline().addLast(new HeartBeatTimerHandler());
 
             }
         });
@@ -74,7 +69,7 @@ public class ProxyClient {
 
 
     public static void main(String[] args) {
-        //todo wubaizhao1 需要输入 代理的端口 服务器ip+端口
+        //todo paakciu 需要输入 代理的端口 服务器ip+端口
 
         Scanner scanner = new Scanner(System.in);
         System.out.println("请输入代理服务器地址");

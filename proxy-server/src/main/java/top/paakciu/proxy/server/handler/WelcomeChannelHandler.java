@@ -38,7 +38,6 @@ public class WelcomeChannelHandler extends SimpleChannelInboundHandler<ByteBuf> 
             byteBuf.readBytes(bytes);
 //            String text = new String(bytes, StandardCharsets.UTF_8);
 //            log.info("WelcomeChannelHandler.channelRead0 bytes={}",text);
-
             String uuid = (String) userChannel.attr(AttributeKey.valueOf("uuid")).get();
             sendToClientService.sendData(uuid,bytes);
         }
@@ -47,8 +46,8 @@ public class WelcomeChannelHandler extends SimpleChannelInboundHandler<ByteBuf> 
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
-        log.info("WelcomeChannelHandler.channelActive channelToWelcome={}",ctx.channel());
         String uuid = UUID.randomUUID().toString();
+        log.info("WelcomeChannelHandler.channelActive channelToWelcome={},uuid={}",ctx.channel(),uuid);
         Channel userChannel = ctx.channel();
         userChannel.attr(AttributeKey.valueOf("uuid")).set(uuid);
         ServerContext.putWelcomeChannel(uuid,userChannel);
@@ -59,19 +58,18 @@ public class WelcomeChannelHandler extends SimpleChannelInboundHandler<ByteBuf> 
         } else {
             sendToClientService.sendToConnect(uuid);
         }
-
         super.channelActive(ctx);
     }
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
-        log.info("WelcomeChannelHandler.exceptionCaught");
+        log.info("WelcomeChannelHandler.exceptionCaught",cause);
         Channel userChannel = ctx.channel();
         String uuid = (String) userChannel.attr(AttributeKey.valueOf("uuid")).get();
         sendToClientService.sendToDisonnect(uuid);
         // 当出现异常就关闭连接
         ctx.close();
-
+        ServerContext.removeWelcomeChannel(uuid);
     }
 
     @Override
@@ -80,6 +78,7 @@ public class WelcomeChannelHandler extends SimpleChannelInboundHandler<ByteBuf> 
         Channel userChannel = ctx.channel();
         String uuid = (String) userChannel.attr(AttributeKey.valueOf("uuid")).get();
         sendToClientService.sendToDisonnect(uuid);
+        ServerContext.removeWelcomeChannel(uuid);
         super.channelInactive(ctx);
     }
 }

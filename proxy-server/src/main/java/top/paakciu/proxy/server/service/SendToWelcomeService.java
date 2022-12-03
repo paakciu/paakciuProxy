@@ -39,7 +39,7 @@ public class SendToWelcomeService {
         Channel channelToWelcome = ServerContext.getWelcomeChannel(uuid);
         if (channelToWelcome != null) {
             ByteBuf buf = ByteBufAllocator.DEFAULT.buffer(data.length);
-//            log.info("ServerChannelHandler.handleTransferMessage proxyMessage.data={}", new String(data, StandardCharsets.UTF_8));
+//            log.info("ServerChannelHandler.sendData 向客户端[{}]发送数据proxyMessage.length={}",uuid,data.length);
             buf.writeBytes(data);
             channelToWelcome.writeAndFlush(buf);
         }
@@ -52,7 +52,8 @@ public class SendToWelcomeService {
         }
         Channel channelToWelcome = ServerContext.getWelcomeChannel(uuid);
         if (channelToWelcome != null) {
-            channelToWelcome.disconnect();
+            channelToWelcome.close();
+            ServerContext.setChannelToClient(null);
         }
     }
 }

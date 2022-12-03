@@ -6,6 +6,7 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.util.AttributeKey;
 import lombok.extern.slf4j.Slf4j;
+import top.paakciu.proxy.client.ClientCache;
 import top.paakciu.proxy.client.ClientContext;
 import top.paakciu.proxy.common.enums.ProxyPacketType;
 import top.paakciu.proxy.core.protocal.packet.special.ProxyPacket;
@@ -30,10 +31,8 @@ public class ClientToLocalHandler extends SimpleChannelInboundHandler<ByteBuf> {
         } else {
             byte[] bytes = new byte[buf.readableBytes()];
             buf.readBytes(bytes);
-            String text = new String(bytes, StandardCharsets.UTF_8);
-//            log.info("ClientToLocalHandler.channelRead0 text={}",text);
-
             String uuid = (String) channelToLocal.attr(AttributeKey.valueOf("uuid")).get();
+//            log.info("ClientToLocalHandler.channelRead0 发送到服务器[{}] 长度={}",uuid,bytes.length);
             ProxyPacket proxyPacket = new ProxyPacket();
             proxyPacket.setType(ProxyPacketType.TRANSFER);
             proxyPacket.setData(bytes);
@@ -53,6 +52,8 @@ public class ClientToLocalHandler extends SimpleChannelInboundHandler<ByteBuf> {
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
         log.info("ClientToLocalHandler.channelInactive");
+        String uuid = (String) ctx.channel().attr(AttributeKey.valueOf("uuid")).get();
+        ClientContext.removeLocalChannel(uuid);
         super.channelInactive(ctx);
     }
 

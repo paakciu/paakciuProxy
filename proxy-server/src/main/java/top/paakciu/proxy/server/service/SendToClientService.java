@@ -35,7 +35,7 @@ public class SendToClientService {
             log.error("SendToClientService.sendToConnect uuid is empty error");
             return;
         }
-        log.error("SendToClientService.sendToConnect uuid={}",uuid);
+        log.info("SendToClientService.sendToConnect uuid={},channelToClient={}",uuid,channelToClient);
         ProxyPacket proxyPacket = new ProxyPacket();
         proxyPacket.setType(ProxyPacketType.CONNECT);
         proxyPacket.setUuid(uuid);

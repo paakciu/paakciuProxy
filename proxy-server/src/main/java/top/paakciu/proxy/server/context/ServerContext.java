@@ -35,4 +35,8 @@ public class ServerContext {
     public static Channel getWelcomeChannel(String uuid){
         return channelToWelcomeMap.get(uuid);
     }
+
+    public static void removeWelcomeChannel(String uuid){
+        channelToWelcomeMap.remove(uuid);
+    }
 }
