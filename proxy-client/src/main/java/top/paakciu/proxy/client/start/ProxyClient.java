@@ -48,8 +48,9 @@ public class ProxyClient {
                 ch.pipeline().addLast(new IdleDetectionHandler(IMConfig.CLIENT_IDLE_TIME,IMConfig.CLIENT_TIME_UNIT));
                 ch.pipeline().addLast(new PreFrameDecoder());
                 ch.pipeline().addLast(new B2MPacketCodecHandler());
-                ch.pipeline().addLast(new ClientToServerHandler());
                 ch.pipeline().addLast(new HeartBeatTimerHandler());
+                ch.pipeline().addLast(new ClientToServerHandler());
+
 
             }
         });
