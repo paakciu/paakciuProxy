@@ -23,7 +23,7 @@ import top.paakciu.proxy.server.handler.WelcomeChannelHandler;
 @Slf4j
 public class ProxyServer {
 
-    int clientPort = 88;
+    int clientPort = 1423;
 
     int welcomePort = 25565;
 
