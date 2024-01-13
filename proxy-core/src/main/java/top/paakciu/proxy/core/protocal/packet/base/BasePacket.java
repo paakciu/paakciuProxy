@@ -1,5 +1,6 @@
 package top.paakciu.proxy.core.protocal.packet.base;
 
+import com.alibaba.fastjson.JSON;
 import lombok.Data;
 import top.paakciu.proxy.core.protocal.enums.PacketsCommandEnum;
 import top.paakciu.proxy.core.protocal.enums.SerializerAlgorithm;

@@ -9,6 +9,5 @@ public class ProxyPacketType {
     public static final byte CONNECT=1;
     public static final byte DISCONNECT=2;
     public static final byte TRANSFER=3;
-
     public static final byte CHECK_CONNECT=4;
 }

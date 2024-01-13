@@ -10,7 +10,6 @@ import lombok.extern.slf4j.Slf4j;
 import top.paakciu.proxy.common.IMConfig;
 import top.paakciu.proxy.core.protocal.codec.B2MPacketCodecHandler;
 import top.paakciu.proxy.core.protocal.handler.HeartBeatRequestHandler;
-import top.paakciu.proxy.core.protocal.handler.HeartBeatTimerHandler;
 import top.paakciu.proxy.core.protocal.handler.IdleDetectionHandler;
 import top.paakciu.proxy.core.protocal.handler.PreFrameDecoder;
 import top.paakciu.proxy.server.handler.ServerChannelHandler;
